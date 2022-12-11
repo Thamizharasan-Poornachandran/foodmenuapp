@@ -1,5 +1,10 @@
 {% extends 'food/base.html' %}
 {% block body %}
+<form action="" method="GET">
+    <input type="search" name="item_name">
+    <button type="submit">Search</button>
+</form>
+
     {% for item in item_list %}
 <div class="container">
     <div class="row">
@@ -13,10 +18,21 @@
         </div>
         <div class="col-md-2" >
             <a href="{% url 'food:detail' item.id %}" class="btn btn-success">Detail</a>
-            <!--<a href="{% url 'food:update_index' %}" class="btn btn-success">Update</a>-->
             <a href="{% url 'food:update_item' item.id %}" class="btn btn-success">Update</a>
         </div>
     </div>
     {% endfor %}
+
+    {% if item_list.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ item_list.previous_page_number }}">Previous</a>
+    {% endif %}
+    Page: {{ item_list.number }} of {{ item_list.paginator.num_pages }}
+    {% if item_list.has_next %}
+        <a href="?page={{ item_list.next_page_number }}">Next</a>
+        <a href="?page={{ item_list.paginator.num_pages }}">Last</a>
+    {% endif %}
+
 {% endblock %}
+
 </div>
